@@ -133,7 +133,7 @@ const defaultSettings = {
   eventTitle: "Jam with Jigris",
   venue: "Jigris Jam Room",
   date: "2026-08-03",
-  time: "06:00 PM",
+  time: "04:00 PM",
   accentColor: "#ff3b30",
   instructions: "1. Show this QR code to the bouncer at the entrance.\n2. Entry valid only for the count specified above.\n3. Entry Only. F&B Not Included.\n4. Ticket is non-transferable and single-use."
 };

@@ -3,6 +3,7 @@ let creatorsList = [];
 let templateSettings = {};
 let logoBase64 = null;
 let logoA19Base64 = null;
+let logoLitworksBase64 = null;
 
 // Auth Check on Startup
 document.addEventListener('DOMContentLoaded', () => {
@@ -26,15 +27,18 @@ function checkAuth() {
 }
 
 function loadDashboard() {
-  // Pre-load both logo images as Base64 to prevent html2canvas loading issues
+  // Pre-load all logo images as Base64 to prevent html2canvas loading issues
   toBase64('/logo.png', (base64) => {
     logoBase64 = base64;
     toBase64('/logo_a19.jpg', (base64_a19) => {
       logoA19Base64 = base64_a19;
-      fetchSettings().then(() => {
-        fetchCreators();
-        // Auto refresh list and stats every 5 seconds for live feedback
-        setInterval(fetchCreators, 5000);
+      toBase64('/logo_litworks.png', (base64_lit) => {
+        logoLitworksBase64 = base64_lit;
+        fetchSettings().then(() => {
+          fetchCreators();
+          // Auto refresh list and stats every 5 seconds for live feedback
+          setInterval(fetchCreators, 5000);
+        });
       });
     });
   });
@@ -73,10 +77,16 @@ function fetchSettings() {
     });
 }
 
+let lastCreatorsJson = '';
 function fetchCreators() {
   return fetch('/api/creators')
     .then(res => res.json())
     .then(creators => {
+      const newJson = JSON.stringify(creators);
+      if (newJson === lastCreatorsJson) {
+        return; // Prevent constant page re-rendering!
+      }
+      lastCreatorsJson = newJson;
       creatorsList = creators;
       updateStats();
       renderCreatorsTable();
@@ -516,8 +526,13 @@ function generatePDF(creator) {
           </div>
         </div>
       </div>
-      <div style="padding: 1.25rem; font-size: 0.65rem; color: #606470; line-height: 1.4; white-space: pre-line; border-top: 1px solid rgba(255,255,255,0.03);">
+      <div style="padding: 1.25rem; font-size: 0.65rem; color: #606470; line-height: 1.4; white-space: pre-line; border-top: 1px solid rgba(255,255,255,0.03); text-align: left;">
         ${templateSettings.instructions}
+        <!-- Litworks Partner Logo -->
+        <div style="margin-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 0.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+          <span style="font-size: 0.55rem; color: #606470; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">Promotional Partner</span>
+          <img src="${logoLitworksBase64 || '/logo_litworks.png'}" alt="Litworks Logo" style="max-height: 16px; width: auto; opacity: 0.7; filter: drop-shadow(0 0 3px rgba(255,255,255,0.08));">
+        </div>
       </div>
     `;
 
@@ -546,15 +561,15 @@ function generatePDF(creator) {
       // Small timeout to allow canvas rendering
       setTimeout(() => {
         html2canvas(ticket, {
-          scale: 2.5, // Enhances text crispness
+          scale: 4, // Ultra-high resolution clarity
           backgroundColor: '#0a0b0d', // Ensures canvas background renders correctly
           useCORS: true
         }).then(capturedCanvas => {
           const imgData = capturedCanvas.toDataURL('image/png');
           
           const { jsPDF } = window.jspdf;
-          const pdfWidth = capturedCanvas.width / 2.5; // Rescale back to CSS pixels
-          const pdfHeight = capturedCanvas.height / 2.5;
+          const pdfWidth = capturedCanvas.width / 4; // Rescale back to CSS pixels
+          const pdfHeight = capturedCanvas.height / 4;
 
           const doc = new jsPDF({
             orientation: 'portrait',
