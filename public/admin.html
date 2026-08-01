@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal - Jam with Jigris</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- AUTHENTICATION LOGIN OVERLAY -->
+  <div id="auth-overlay" class="auth-overlay">
+    <div class="auth-card glass-panel">
+      <div class="logo-container" style="margin-bottom: 1.5rem;">
+        <img src="logo.png" alt="Logo" class="logo-img" style="max-height: 80px;">
+        <h2 class="auth-title">Admin Login</h2>
+      </div>
+      <form id="login-form">
+        <div class="input-group">
+          <label for="login-email">Email Address</label>
+          <input type="email" id="login-email" required placeholder="checkin@a19.com">
+        </div>
+        <div class="input-group" style="margin-bottom: 1.5rem;">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" required placeholder="•••••">
+        </div>
+        <button type="submit" class="btn btn-primary">Login to Portal</button>
+        <div id="login-error" class="error-msg">Incorrect credentials. Please try again.</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MAIN ADMIN DASHBOARD -->
+  <div id="dashboard-wrapper" style="display: none;">
+    <!-- Header -->
+    <header style="flex-direction: row; justify-content: space-between; align-items: center; max-width: 1400px; padding: 1.5rem 1rem;">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <img src="logo.png" alt="Logo" class="logo-img" style="max-height: 60px; margin: 0;">
+        <h1 class="page-title" style="font-size: 1.5rem; margin: 0; text-align: left;">Admin Control</h1>
+      </div>
+      <div style="display: flex; gap: 1rem;">
+        <a href="index.html" target="_blank" class="btn btn-secondary btn-icon" style="padding: 0.6rem 1rem;">
+          Open Scanner App
+        </a>
+        <button id="logout-btn" class="btn btn-danger btn-icon" style="padding: 0.6rem 1rem;">
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <!-- Content Grid -->
+    <main class="admin-container">
+      
+      <!-- LEFT SIDEBAR: FORMS & CUSTOMIZER -->
+      <section class="admin-sidebar">
+        
+        <!-- Quick Statistics Widget -->
+        <div class="glass-panel stat-card" style="padding: 1.5rem;">
+          <h3 class="stat-label" style="font-size: 1rem; color: #fff; margin-bottom: 1rem;">Event Status</h3>
+          <div class="stats-grid">
+            <div class="stat-card glass-panel" style="background: rgba(255,255,255,0.02); padding: 0.75rem;">
+              <span class="stat-label">Creators</span>
+              <span class="stat-value" id="stat-creators">0</span>
+            </div>
+            <div class="stat-card glass-panel" style="background: rgba(255,255,255,0.02); padding: 0.75rem;">
+              <span class="stat-label">Tickets</span>
+              <span class="stat-value" id="stat-tickets">0</span>
+            </div>
+          </div>
+          <div class="stat-card glass-panel" style="background: rgba(255,255,255,0.02); padding: 0.75rem; margin-top: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <span class="stat-label">Checked In</span>
+              <span class="stat-value" id="stat-checkedin" style="font-size: 1.5rem; color: var(--accent-green);">0 / 0</span>
+            </div>
+            <div class="stat-progress-bar">
+              <div id="stat-progress-fill" class="stat-progress-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar Actions Panel -->
+        <div class="glass-panel" style="padding: 1.5rem;">
+          <div class="tabs-header">
+            <button class="tab-btn active" data-tab="tab-add">Add Influencer</button>
+            <button class="tab-btn" data-tab="tab-template">Edit Ticket</button>
+          </div>
+
+          <!-- Add Creator Tab -->
+          <div class="tab-content active" id="tab-add">
+            <form id="add-creator-form">
+              <div class="input-group">
+                <label for="creator-insta">Instagram Page Handle</label>
+                <input type="text" id="creator-insta" required placeholder="@username">
+              </div>
+              <div class="input-group" style="margin-bottom: 1.5rem;">
+                <label for="creator-tickets">Guest Ticket Count</label>
+                <input type="number" id="creator-tickets" min="1" max="100" value="1" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Generate Creator Entry</button>
+            </form>
+          </div>
+
+          <!-- Ticket Customizer Tab -->
+          <div class="tab-content" id="tab-template">
+            <div style="max-height: 450px; overflow-y: auto; padding-right: 5px; display: flex; flex-direction: column; gap: 1rem;">
+              <div class="input-group">
+                <label for="tpl-title">Event Title</label>
+                <input type="text" id="tpl-title" value="Jam with Jigris">
+              </div>
+              <div class="input-group">
+                <label for="tpl-venue">Venue</label>
+                <input type="text" id="tpl-venue" value="Jigris Studio">
+              </div>
+              <div class="input-row" style="display: flex; gap: 0.5rem;">
+                <div class="input-group" style="flex: 1;">
+                  <label for="tpl-date">Date</label>
+                  <input type="date" id="tpl-date" value="2026-08-03">
+                </div>
+                <div class="input-group" style="flex: 1;">
+                  <label for="tpl-time">Time</label>
+                  <input type="text" id="tpl-time" value="06:00 PM">
+                </div>
+              </div>
+              <div class="input-group">
+                <label for="tpl-accent">Ticket Theme Color</label>
+                <input type="color" id="tpl-accent" value="#ff3b30">
+              </div>
+              <div class="input-group">
+                <label for="tpl-instructions">Instructions</label>
+                <textarea id="tpl-instructions" rows="4">1. Show this QR code to the bouncer at the entrance.
+2. Entry valid only for the count specified above.
+3. Ticket is non-transferable and single-use.</textarea>
+              </div>
+              <button id="save-settings-btn" class="btn btn-success">Save Template</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Ticket Preview Card -->
+        <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column; align-items: center;">
+          <h3 class="stat-label" style="align-self: flex-start; color: #fff; margin-bottom: 0.75rem;">Ticket Live Preview</h3>
+          <div class="ticket-preview-box">
+            <div id="preview-ticket-element" class="ticket-card">
+              <div class="ticket-header">
+                <img src="logo.png" alt="Logo" class="ticket-logo">
+                <div class="ticket-event-title" id="preview-ticket-title">JAM WITH JIGRIS</div>
+              </div>
+              <div class="ticket-divider"></div>
+              <div class="ticket-body">
+                <div class="ticket-creator-name" id="preview-creator-name">@influencer_handle</div>
+                <div class="ticket-creator-role">Special Guest Entry</div>
+                <div class="ticket-qr-container">
+                  <canvas id="preview-qr-canvas" class="ticket-qr-canvas"></canvas>
+                </div>
+                <div class="ticket-meta-grid">
+                  <div class="ticket-meta-item">
+                    <span class="ticket-meta-label">Date & Time</span>
+                    <span class="ticket-meta-val" id="preview-ticket-datetime">03 Aug • 06:00 PM</span>
+                  </div>
+                  <div class="ticket-meta-item">
+                    <span class="ticket-meta-label">Venue</span>
+                    <span class="ticket-meta-val" id="preview-ticket-venue">Jigris Studio</span>
+                  </div>
+                  <div class="ticket-meta-item" style="grid-column: span 2; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.4rem; margin-top: 0.2rem; display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                    <span class="ticket-meta-label">Total Guests allowed</span>
+                    <span class="ticket-meta-val" style="color: var(--accent-red); font-size: 0.95rem;" id="preview-ticket-guests">1 Guest</span>
+                  </div>
+                </div>
+              </div>
+              <div class="ticket-footer" id="preview-ticket-instructions">
+                1. Show this QR code to the bouncer at the entrance.
+                2. Entry valid only for the count specified above.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT PANEL: LISTS & LOGS -->
+      <section class="admin-content">
+        
+        <!-- Creators Management Table -->
+        <div class="glass-panel creator-list-panel">
+          <div class="section-header">
+            <h2 class="section-title">Influencers Directory</h2>
+            
+            <div class="actions-row">
+              <div class="search-wrapper">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input type="text" id="creator-search" placeholder="Search by username...">
+              </div>
+              
+              <select id="status-filter" style="width: auto; padding-right: 2rem;">
+                <option value="all">All Statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="Checked In">Checked In</option>
+              </select>
+
+              <button id="download-all-pdf-btn" class="btn btn-secondary btn-icon" style="width: auto;">
+                Download All (PDF)
+              </button>
+              
+              <button id="export-csv-btn" class="btn btn-secondary btn-icon" style="width: auto;">
+                Export CSV
+              </button>
+              
+              <button id="reset-all-btn" class="btn btn-danger btn-icon" style="width: auto;">
+                Reset Scans
+              </button>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="table-responsive">
+            <table id="creators-table">
+              <thead>
+                <tr>
+                  <th>Instagram Handle</th>
+                  <th>Ticket Count</th>
+                  <th>Status</th>
+                  <th>Checked In At</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="creators-list">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+            
+            <!-- Empty state -->
+            <div id="table-empty-state" class="empty-state" style="display: none;">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <h3>No Influencers Found</h3>
+              <p>Add some creators in the left sidebar to generate entry tickets.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-time Arrivals Ticker -->
+        <div class="glass-panel" style="padding: 1.5rem;">
+          <h3 class="section-title" style="margin-bottom: 1rem;">Real-time Check-In Feed</h3>
+          <div class="logs-container" id="logs-container">
+            <!-- Dynamic entries loaded here -->
+            <div style="color: var(--text-muted); text-align: center; padding: 2rem 0;">
+              No check-ins logged yet. Ready to scan at the gate!
+            </div>
+          </div>
+        </div>
+
+        <!-- Network sharing panel details -->
+        <div class="glass-panel" style="padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; border-color: rgba(255, 59, 48, 0.15);">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--accent-green); box-shadow: 0 0 8px var(--accent-green);"></div>
+            <strong style="font-size: 0.9rem;">Bouncer Scanner Access (Local Hotspot Router)</strong>
+          </div>
+          <span style="font-size: 0.8rem; color: var(--text-secondary);">
+            To connect the bouncers' mobile phones at the venue, connect your laptop and their phones to the same Wi-Fi router. 
+            Open terminal startup logs to copy the <strong>Network Access IP Address</strong> and type it in their mobile browser (e.g. <code>http://192.168.x.x:3000</code>).
+          </span>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- HIDDEN STAGE ELEMENT FOR RENDERING HIGH-QUALITY PDF TICKET TO CANVAS -->
+  <div id="pdf-render-stage">
+    <!-- Ticket contents will be generated inside this element dynamically before capturing image -->
+  </div>
+
+  <!-- CDN scripts: QR Code & jsPDF dependencies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.1/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- Admin Script -->
+  <script src="js/admin.js"></script>
+</body>
+</html>

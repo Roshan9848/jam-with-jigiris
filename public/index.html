@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Jam Entry Scanner</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Minimal Header for Mobile -->
+  <header class="mobile-header">
+    <img src="logo.png" alt="Jam with Jigris Logo" class="mobile-logo-img">
+    
+    <div class="mobile-header-actions">
+      <!-- Settings (Gear) Icon Button -->
+      <button id="settings-toggle-btn" class="icon-btn" title="Scanner Settings">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      </button>
+
+      <!-- Admin Portal Access Link Button -->
+      <a href="admin.html" class="icon-btn" title="Admin Portal">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 3m0-3a2 2 0 110 3m-9 1h9m0 0l-1 5m1-5l1-5M3 10H1a1 1 0 01-1-1V3a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1zm18 0h-2a1 1 0 01-1-1V3a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1zm-9 9h.01M21 21v-2a4 4 0 00-3-3.87m-11 0A4 4 0 002 19v2a2 2 0 002 2h16a2 2 0 002-2z" />
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Collapsible Settings Panel (Camera selector) -->
+  <section id="settings-panel" class="settings-panel">
+    <div class="glass-panel settings-inner">
+      <div class="input-group" style="margin-bottom: 0.5rem;">
+        <label for="camera-select">Select Active Camera</label>
+        <select id="camera-select">
+          <option value="">Detecting video sources...</option>
+        </select>
+      </div>
+      <button id="toggle-scan-btn" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+        Pause Scanner
+      </button>
+    </div>
+  </section>
+
+  <!-- Clean Scanner Viewport -->
+  <main class="scanner-viewport">
+    <div class="camera-container-mobile">
+      
+      <!-- HTML5 QR Library Frame -->
+      <div id="reader"></div>
+
+      <!-- Scanning Focus Overlay Frame -->
+      <div class="scan-overlay-focus">
+        <div class="scan-box-corner corner-tl"></div>
+        <div class="scan-box-corner corner-tr"></div>
+        <div class="scan-box-corner corner-bl"></div>
+        <div class="scan-box-corner corner-br"></div>
+        
+        <!-- Animated scan laser bar -->
+        <div class="scan-laser-line"></div>
+      </div>
+
+      <!-- Color feedback glow panel (Status updates change border color) -->
+      <div id="status-glow" class="status-feedback-glow scanning"></div>
+
+    </div>
+  </main>
+
+  <!-- Sliding Bottom Sheet for Scan Results -->
+  <div class="bottom-sheet-overlay" id="bottom-sheet-overlay">
+    <div class="bottom-sheet">
+      <!-- Grab Handle line -->
+      <div class="bottom-sheet-handle"></div>
+
+      <!-- Scanned Creator Information -->
+      <h2 class="result-title-mobile" id="sheet-username">@influencer</h2>
+      <div class="result-tickets-mobile">Allowed Guests: <span id="sheet-tickets">0</span></div>
+      
+      <!-- Scan Status details -->
+      <div class="result-info-box" id="sheet-info-box">
+        Retrieving ticket validation details...
+      </div>
+
+      <!-- Swipe / Click Control Actions -->
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <button id="sheet-checkin-btn" class="btn btn-success">
+          Approve Entry & Check In
+        </button>
+        <button id="sheet-close-btn" class="btn btn-secondary">
+          Resume Camera Scan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HTML5 QR Code CDN Library -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <!-- Mobile-optimized App Logic -->
+  <script src="js/app.js"></script>
+</body>
+</html>
