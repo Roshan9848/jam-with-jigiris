@@ -129,7 +129,8 @@
                 <label for="tpl-instructions">Instructions</label>
                 <textarea id="tpl-instructions" rows="4">1. Show this QR code to the bouncer at the entrance.
 2. Entry valid only for the count specified above.
-3. Ticket is non-transferable and single-use.</textarea>
+3. Entry Only. F&B Not Included.
+4. Ticket is non-transferable and single-use.</textarea>
               </div>
               <button id="save-settings-btn" class="btn btn-success">Save Template</button>
             </div>
@@ -153,7 +154,7 @@
               <div class="ticket-divider"></div>
               <div class="ticket-body">
                 <div class="ticket-creator-name" id="preview-creator-name">@influencer_handle</div>
-                <div class="ticket-creator-role">Special Guest Entry</div>
+                <div class="ticket-creator-role">Influencer Pass</div>
                 <div class="ticket-qr-container">
                   <canvas id="preview-qr-canvas" class="ticket-qr-canvas"></canvas>
                 </div>
@@ -167,6 +168,10 @@
                     <span class="ticket-meta-val" id="preview-ticket-venue">Jigris Studio</span>
                   </div>
                   <div class="ticket-meta-item" style="grid-column: span 2; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.4rem; margin-top: 0.2rem; display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                    <span class="ticket-meta-label">Pass type</span>
+                    <span style="color: #ff3b30; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Entry Only (F&B Not Included)</span>
+                  </div>
+                  <div class="ticket-meta-item" style="grid-column: span 2; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.4rem; margin-top: 0.2rem; display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
                     <span class="ticket-meta-label">Total Guests allowed</span>
                     <span class="ticket-meta-val" style="color: var(--accent-red); font-size: 0.95rem;" id="preview-ticket-guests">1 Guest</span>
                   </div>
@@ -175,6 +180,7 @@
               <div class="ticket-footer" id="preview-ticket-instructions">
                 1. Show this QR code to the bouncer at the entrance.
                 2. Entry valid only for the count specified above.
+                3. Entry Only. F&B Not Included.
               </div>
             </div>
           </div>

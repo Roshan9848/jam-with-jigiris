@@ -491,7 +491,7 @@ function generatePDF(creator) {
       <div class="ticket-divider" style="height: 1px; border-top: 2px dashed rgba(255, 255, 255, 0.15); margin: 1.25rem 0; position: relative;"></div>
       <div class="ticket-body" style="padding: 0 1.5rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
         <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem;">@${creator.instagram}</div>
-        <div style="font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.25rem;">Special Guest Entry</div>
+        <div style="font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.25rem;">Influencer Pass</div>
         
         <div style="background: #ffffff; padding: 0.75rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; width: 150px; height: 150px;">
           <canvas id="pdf-qr-canvas-${creator.id}" style="width: 100%; height: 100%;"></canvas>
@@ -505,6 +505,10 @@ function generatePDF(creator) {
           <div class="ticket-meta-item">
             <span class="ticket-meta-label" style="font-size: 0.65rem; color: #606470; text-transform: uppercase; font-weight: 600;">Venue</span>
             <span style="font-size: 0.8rem; font-weight: 600; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${templateSettings.venue}</span>
+          </div>
+          <div style="grid-column: span 2; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.4rem; margin-top: 0.2rem; display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.65rem; color: #606470; text-transform: uppercase; font-weight: 600;">Pass type</span>
+            <span style="color: #ff3b30; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Entry Only (F&B Not Included)</span>
           </div>
           <div style="grid-column: span 2; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.4rem; margin-top: 0.2rem; display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
             <span style="font-size: 0.65rem; color: #606470; text-transform: uppercase; font-weight: 600;">Total Guests allowed</span>
