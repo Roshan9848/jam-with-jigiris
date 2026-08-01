@@ -2,6 +2,7 @@
 let creatorsList = [];
 let templateSettings = {};
 let logoBase64 = null;
+let logoA19Base64 = null;
 
 // Auth Check on Startup
 document.addEventListener('DOMContentLoaded', () => {
@@ -25,13 +26,16 @@ function checkAuth() {
 }
 
 function loadDashboard() {
-  // Pre-load logo image as Base64 to prevent html2canvas loading issues
+  // Pre-load both logo images as Base64 to prevent html2canvas loading issues
   toBase64('/logo.png', (base64) => {
     logoBase64 = base64;
-    fetchSettings().then(() => {
-      fetchCreators();
-      // Auto refresh list and stats every 5 seconds for live feedback
-      setInterval(fetchCreators, 5000);
+    toBase64('/logo_a19.jpg', (base64_a19) => {
+      logoA19Base64 = base64_a19;
+      fetchSettings().then(() => {
+        fetchCreators();
+        // Auto refresh list and stats every 5 seconds for live feedback
+        setInterval(fetchCreators, 5000);
+      });
     });
   });
 }
@@ -469,10 +473,17 @@ function generatePDF(creator) {
       }
     } catch (e) {}
 
-    // HTML interior structure
+    // HTML interior structure containing the dual logo configuration
     ticket.innerHTML = `
       <div class="ticket-header" style="padding: 1.5rem 1.5rem 0.5rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
-        <img src="${logoBase64 || '/logo.png'}" alt="Logo" style="max-height: 52px; width: auto; margin-bottom: 0.75rem;">
+        
+        <!-- Dual Logo Header -->
+        <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.75rem; width: 100%;">
+          <img src="${logoBase64 || '/logo.png'}" alt="Jam Logo" style="max-height: 48px; width: auto;">
+          <span style="font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 800; color: rgba(255,255,255,0.4);">x</span>
+          <img src="${logoA19Base64 || '/logo_a19.jpg'}" alt="A19 Logo" style="max-height: 48px; width: auto; border-radius: 50%;">
+        </div>
+
         <div style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">
           ${templateSettings.eventTitle.toUpperCase()}
         </div>

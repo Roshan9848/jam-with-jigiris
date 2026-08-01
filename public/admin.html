@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Admin Portal - Jam with Jigris</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -142,7 +142,12 @@
           <div class="ticket-preview-box">
             <div id="preview-ticket-element" class="ticket-card">
               <div class="ticket-header">
-                <img src="logo.png" alt="Logo" class="ticket-logo">
+                <!-- Dual Logo Header -->
+                <div class="ticket-header-logos">
+                  <img src="logo.png" alt="Jam Logo" class="ticket-logo-left">
+                  <span class="ticket-logo-separator">x</span>
+                  <img src="logo_a19.jpg" alt="A19 Logo" class="ticket-logo-right">
+                </div>
                 <div class="ticket-event-title" id="preview-ticket-title">JAM WITH JIGRIS</div>
               </div>
               <div class="ticket-divider"></div>

@@ -313,6 +313,7 @@ h1, h2, h3, h4, .brand-title {
 }
 
 /* Selector and Input styling */
+/* CRITICAL: Set font-size to 16px to prevent iOS Safari auto-zooming on focus */
 select, input, textarea {
   width: 100%;
   padding: 0.8rem 1.2rem;
@@ -321,7 +322,7 @@ select, input, textarea {
   border-radius: 12px;
   color: var(--text-primary);
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 16px !important;
   transition: var(--transition-smooth);
   outline: none;
 }
@@ -389,8 +390,38 @@ select:focus, input:focus, textarea:focus {
   border: 1px solid rgba(255, 59, 48, 0.25);
 }
 
+/* Dual Logo Header for Ticket */
+.ticket-header-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.ticket-logo-left {
+  max-height: 44px;
+  width: auto;
+  filter: drop-shadow(0 0 5px rgba(255,59,48,0.25));
+}
+
+.ticket-logo-separator {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.ticket-logo-right {
+  max-height: 44px;
+  width: auto;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  filter: drop-shadow(0 0 5px rgba(255,255,255,0.08));
+}
+
 /* ==========================================================================
-   Admin Dashboard Layout (Preserved and styled)
+   Admin Dashboard Layout
    ========================================================================== */
 .admin-container {
   width: 95%;
