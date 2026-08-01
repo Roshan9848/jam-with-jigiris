@@ -22,8 +22,12 @@ if (!isVercel && !fs.existsSync(DATA_DIR)) {
 const CREATORS_FILE = path.join(DATA_DIR, 'creators.json');
 const SETTINGS_FILE = path.join(DATA_DIR, 'settings.json');
 
-// Helper to read data (from Vercel KV REST or local file fallback)
+const CREATORS_BLOB_URL = 'https://jsonblob.com/api/jsonBlob/019fbeea-6ac1-7413-b09a-ccc496117c32';
+const SETTINGS_BLOB_URL = 'https://jsonblob.com/api/jsonBlob/019fbeea-6ab4-7e5c-b47e-e78720a7d840';
+
+// Helper to read data (from Vercel KV REST, JSONBlob, or local file fallback)
 async function readData(key, filePath, defaultData = []) {
+  // 1. Try Vercel KV first if connected by user
   if (kvUrl && kvToken) {
     try {
       const response = await fetch(`${kvUrl}/get/${key}`, {
@@ -43,6 +47,21 @@ async function readData(key, filePath, defaultData = []) {
     }
   }
 
+  // 2. Try anonymous JSONBlob online DB for instant zero-setup cloud storage
+  const blobUrl = key === 'creators' ? CREATORS_BLOB_URL : SETTINGS_BLOB_URL;
+  try {
+    const response = await fetch(blobUrl, {
+      headers: { 'Accept': 'application/json' }
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    }
+  } catch (e) {
+    console.warn(`Online JSONBlob fetch failed for ${key}, falling back to local file.`, e);
+  }
+
+  // 3. Fall back to local file database (ideal for offline local hotspot router runs)
   try {
     if (!fs.existsSync(filePath)) {
       fs.writeFileSync(filePath, JSON.stringify(defaultData, null, 2));
@@ -56,8 +75,9 @@ async function readData(key, filePath, defaultData = []) {
   }
 }
 
-// Helper to write data (to Vercel KV REST or local file fallback)
+// Helper to write data (to Vercel KV REST, JSONBlob, or local file fallback)
 async function writeData(key, filePath, data) {
+  // 1. Try Vercel KV first if connected by user
   if (kvUrl && kvToken) {
     try {
       const response = await fetch(kvUrl, {
@@ -76,6 +96,29 @@ async function writeData(key, filePath, data) {
     }
   }
 
+  // 2. Try anonymous JSONBlob online DB update
+  const blobUrl = key === 'creators' ? CREATORS_BLOB_URL : SETTINGS_BLOB_URL;
+  try {
+    const response = await fetch(blobUrl, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    if (response.ok) {
+      // Write locally as a silent backup if running local server
+      if (!isVercel) {
+        try { fs.writeFileSync(filePath, JSON.stringify(data, null, 2)); } catch (err) {}
+      }
+      return true;
+    }
+  } catch (e) {
+    console.warn(`Online JSONBlob write failed for ${key}, falling back to local file.`, e);
+  }
+
+  // 3. Fall back to local file database
   try {
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
     return true;
