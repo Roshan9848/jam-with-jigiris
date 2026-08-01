@@ -282,6 +282,9 @@ function performCheckIn() {
       `;
       
       sheetCheckinBtn.style.display = "none";
+
+      // Auto-resume camera scanning after 1 second
+      setTimeout(closeBottomSheet, 1000);
     } else {
       alert("Verification error: " + data.message);
       sheetCheckinBtn.disabled = false;
