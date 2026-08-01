@@ -31,7 +31,10 @@ async function readData(key, filePath, defaultData = []) {
       });
       if (response.ok) {
         const data = await response.json();
-        if (data && data.result) {
+        if (data && data.hasOwnProperty('result')) {
+          if (data.result === null) {
+            return defaultData;
+          }
           return JSON.parse(data.result);
         }
       }
